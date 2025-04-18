@@ -74,29 +74,56 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
             background: white;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
-        .card-back {
+        .card-front {
+            justify-content: flex-start;
+            padding: 10px;
+        }
+        .card .card-back {
             transform: rotateY(180deg);
-            padding: 20px;
-            text-align: left;
+            padding: 10px;
+            background: #4682B4;
             overflow-y: auto;
         }
-        .card img {
-            max-width: 100%;
-            max-height: 200px;
-            object-fit: contain;
+        .card-front img {
+            width: 100%;
+            height: 85%;
+            object-fit: cover;
+            border-radius: 10px 10px 0 0;
+        }
+        .card-front h3 {
+            font-size: 1.2rem;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .carousel {
+            width: 100%;
+            height: 50%;
+            overflow: hidden;
+            position: relative;
+        }
+        .carousel img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+        .carousel img.active {
+            opacity: 1;
         }
         .card-back ul {
             list-style: none;
             opacity: 0;
             animation: fadeIn 0.5s forwards 0.6s;
+            font-size: 0.9rem;
         }
         .card-back ul li {
-            margin: 5px 0;
+            margin: 3px 0;
         }
         @keyframes fadeIn {
             to { opacity: 1; }
@@ -104,11 +131,12 @@
         .btn {
             background: #FFD700;
             color: #333;
-            padding: 10px 20px;
+            padding: 8px 16px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             margin-top: 10px;
+            font-size: 0.9rem;
         }
         .btn:hover {
             background: #E6C200;
@@ -123,13 +151,17 @@
         }
         .about p, .terms p {
             opacity: 0;
-            transform: translateY(20px);
-            animation: slideUp 0.5s forwards;
+            transform: translateX(-50px);
+            animation: slideIn 0.5s forwards;
         }
-        @keyframes slideUp {
+        .about p:nth-child(2) { animation-delay: 0.2s; }
+        .about p:nth-child(3) { animation-delay: 0.4s; }
+        .terms p:nth-child(2) { animation-delay: 0.2s; }
+        .terms p:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes slideIn {
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateX(0);
             }
         }
         footer {
@@ -164,6 +196,24 @@
         .scroll-top.visible {
             opacity: 1;
         }
+        /* Nouvelle galerie d'images pour chaque carte */
+        .card-images {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 10px;
+            width: 100%;
+        }
+        .card-images img {
+            width: calc(33.33% - 4px);
+            height: 60px;
+            object-fit: cover;
+            border-radius: 5px;
+            transition: transform 0.3s;
+        }
+        .card-images img:hover {
+            transform: scale(1.05);
+        }
         @media (max-width: 768px) {
             .header-container {
                 flex-direction: column;
@@ -178,6 +228,18 @@
             .products {
                 grid-template-columns: 1fr;
             }
+            .card {
+                height: 350px;
+            }
+            .card-front img {
+                height: 80%;
+            }
+            .carousel {
+                height: 40%;
+            }
+            .card-images img {
+                height: 50px;
+            }
         }
     </style>
 </head>
@@ -185,13 +247,15 @@
     <header>
         <div class="header-container">
             <div class="logo">
-                <img src="https://via.placeholder.com/150x50?text=Logo" alt="Logo">
+                <img src="/api/placeholder/150/50" alt="Logo">
             </div>
             <nav>
                 <ul>
                     <li><a href="#neuf">Neuf</a></li>
                     <li><a href="#occasion">Occasion</a></li>
                     <li><a href="#reparation">Réparation</a></li>
+                    <li><a href="#about">À Propos</a></li>
+                    <li><a href="#terms">Conditions</a></li>
                 </ul>
             </nav>
         </div>
@@ -199,11 +263,23 @@
     <section class="products" id="neuf">
         <div class="card">
             <div class="card-front">
-                <img src="https://via.placeholder.com/200?text=Smartphone+Neuf" alt="Smartphone Neuf">
-                <h3>Smartphone Neuf</h3>
+                <img src="/api/placeholder/300/250" alt="Smartphone Neuf 1">
+                <h3>Smartphone Neuf 1</h3>
+                <div class="card-images">
+                    <img src="/api/placeholder/100/60" alt="Vue avant">
+                    <img src="/api/placeholder/100/60" alt="Vue arrière">
+                    <img src="/api/placeholder/100/60" alt="Vue latérale">
+                </div>
             </div>
             <div class="card-back">
-                <h3>Smartphone Neuf - Fiche Technique</h3>
+                <div class="carousel">
+                    <img src="/api/placeholder/300/200" class="active" alt="Vue avant">
+                    <img src="/api/placeholder/300/200" alt="Vue arrière">
+                    <img src="/api/placeholder/300/200" alt="Vue latérale">
+                    <img src="/api/placeholder/300/200" alt="Vue dessus">
+                    <img src="/api/placeholder/300/200" alt="Vue dessous">
+                </div>
+                <h3>Smartphone Neuf 1 - Fiche Technique</h3>
                 <ul>
                     <li>Modèle: XPhone Pro</li>
                     <li>Stockage: 128Go</li>
@@ -214,16 +290,94 @@
                     <li>Batterie: 4500mAh</li>
                     <li>Prix: 799€</li>
                 </ul>
-                <button class="btn" onclick="addToCart('Smartphone Neuf', 799)">Commander</button>
+                <button class="btn" onclick="addToCart('Smartphone Neuf 1', 799)">Commander</button>
             </div>
         </div>
         <div class="card">
             <div class="card-front">
-                <img src="https://via.placeholder.com/200?text=Smartphone+Occasion" alt="Smartphone Occasion">
-                <h3>Smartphone Occasion</h3>
+                <img src="/api/placeholder/300/250" alt="Smartphone Neuf 2">
+                <h3>Smartphone Neuf 2</h3>
+                <div class="card-images">
+                    <img src="/api/placeholder/100/60" alt="Vue avant">
+                    <img src="/api/placeholder/100/60" alt="Vue arrière">
+                    <img src="/api/placeholder/100/60" alt="Vue latérale">
+                </div>
             </div>
             <div class="card-back">
-                <h3>Smartphone Occasion - Fiche Technique</h3>
+                <div class="carousel">
+                    <img src="/api/placeholder/300/200" class="active" alt="Vue avant">
+                    <img src="/api/placeholder/300/200" alt="Vue arrière">
+                    <img src="/api/placeholder/300/200" alt="Vue latérale">
+                    <img src="/api/placeholder/300/200" alt="Vue dessus">
+                    <img src="/api/placeholder/300/200" alt="Vue dessous">
+                </div>
+                <h3>Smartphone Neuf 2 - Fiche Technique</h3>
+                <ul>
+                    <li>Modèle: YPhone Ultra</li>
+                    <li>Stockage: 256Go</li>
+                    <li>RAM: 12Go</li>
+                    <li>Processeur: Octa-core 3.5GHz</li>
+                    <li>Écran: OLED 6.9"</li>
+                    <li>Caméra: 200MP + 16MP</li>
+                    <li>Batterie: 5000mAh</li>
+                    <li>Prix: 999€</li>
+                </ul>
+                <button class="btn" onclick="addToCart('Smartphone Neuf 2', 999)">Commander</button>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-front">
+                <img src="/api/placeholder/300/250" alt="Smartphone Neuf 3">
+                <h3>Smartphone Neuf 3</h3>
+                <div class="card-images">
+                    <img src="/api/placeholder/100/60" alt="Vue avant">
+                    <img src="/api/placeholder/100/60" alt="Vue arrière">
+                    <img src="/api/placeholder/100/60" alt="Vue latérale">
+                </div>
+            </div>
+            <div class="card-back">
+                <div class="carousel">
+                    <img src="/api/placeholder/300/200" class="active" alt="Vue avant">
+                    <img src="/api/placeholder/300/200" alt="Vue arrière">
+                    <img src="/api/placeholder/300/200" alt="Vue latérale">
+                    <img src="/api/placeholder/300/200" alt="Vue dessus">
+                    <img src="/api/placeholder/300/200" alt="Vue dessous">
+                </div>
+                <h3>Smartphone Neuf 3 - Fiche Technique</h3>
+                <ul>
+                    <li>Modèle: ZPhone Max</li>
+                    <li>Stockage: 128Go</li>
+                    <li>RAM: 6Go</li>
+                    <li>Processeur: Octa-core 3.0GHz</li>
+                    <li>Écran: AMOLED 6.5"</li>
+                    <li>Caméra: 64MP + 8MP</li>
+                    <li>Batterie: 4200mAh</li>
+                    <li>Prix: 649€</li>
+                </ul>
+                <button class="btn" onclick="addToCart('Smartphone Neuf 3', 649)">Commander</button>
+            </div>
+        </div>
+    </section>
+    <section class="products" id="occasion">
+        <div class="card">
+            <div class="card-front">
+                <img src="/api/placeholder/300/250" alt="Smartphone Occasion 1">
+                <h3>Smartphone Occasion 1</h3>
+                <div class="card-images">
+                    <img src="/api/placeholder/100/60" alt="Vue avant">
+                    <img src="/api/placeholder/100/60" alt="Vue arrière">
+                    <img src="/api/placeholder/100/60" alt="Vue latérale">
+                </div>
+            </div>
+            <div class="card-back">
+                <div class="carousel">
+                    <img src="/api/placeholder/300/200" class="active" alt="Vue avant">
+                    <img src="/api/placeholder/300/200" alt="Vue arrière">
+                    <img src="/api/placeholder/300/200" alt="Vue latérale">
+                    <img src="/api/placeholder/300/200" alt="Vue dessus">
+                    <img src="/api/placeholder/300/200" alt="Vue dessous">
+                </div>
+                <h3>Smartphone Occasion 1 - Fiche Technique</h3>
                 <ul>
                     <li>Modèle: XPhone 11</li>
                     <li>Stockage: 64Go</li>
@@ -235,15 +389,62 @@
                     <li>État: Reconditionné</li>
                     <li>Prix: 399€</li>
                 </ul>
-                <button class="btn" onclick="addToCart('Smartphone Occasion', 399)">Commander</button>
+                <button class="btn" onclick="addToCart('Smartphone Occasion 1', 399)">Commander</button>
             </div>
         </div>
         <div class="card">
             <div class="card-front">
-                <img src="https://via.placeholder.com/200?text=Réparation" alt="Réparation">
-                <h3>Réparation</h3>
+                <img src="/api/placeholder/300/250" alt="Smartphone Occasion 2">
+                <h3>Smartphone Occasion 2</h3>
+                <div class="card-images">
+                    <img src="/api/placeholder/100/60" alt="Vue avant">
+                    <img src="/api/placeholder/100/60" alt="Vue arrière">
+                    <img src="/api/placeholder/100/60" alt="Vue latérale">
+                </div>
             </div>
             <div class="card-back">
+                <div class="carousel">
+                    <img src="/api/placeholder/300/200" class="active" alt="Vue avant">
+                    <img src="/api/placeholder/300/200" alt="Vue arrière">
+                    <img src="/api/placeholder/300/200" alt="Vue latérale">
+                    <img src="/api/placeholder/300/200" alt="Vue dessus">
+                    <img src="/api/placeholder/300/200" alt="Vue dessous">
+                </div>
+                <h3>Smartphone Occasion 2 - Fiche Technique</h3>
+                <ul>
+                    <li>Modèle: YPhone 10</li>
+                    <li>Stockage: 32Go</li>
+                    <li>RAM: 4Go</li>
+                    <li>Processeur: Quad-core 2.5GHz</li>
+                    <li>Écran: LCD 5.8"</li>
+                    <li>Caméra: 12MP + 5MP</li>
+                    <li>Batterie: 3500mAh</li>
+                    <li>État: Reconditionné</li>
+                    <li>Prix: 299€</li>
+                </ul>
+                <button class="btn" onclick="addToCart('Smartphone Occasion 2', 299)">Commander</button>
+            </div>
+        </div>
+    </section>
+    <section class="products" id="reparation">
+        <div class="card">
+            <div class="card-front">
+                <img src="/api/placeholder/300/250" alt="Réparation">
+                <h3>Réparation</h3>
+                <div class="card-images">
+                    <img src="/api/placeholder/100/60" alt="Réparation écran">
+                    <img src="/api/placeholder/100/60" alt="Réparation batterie">
+                    <img src="/api/placeholder/100/60" alt="Réparation caméra">
+                </div>
+            </div>
+            <div class="card-back">
+                <div class="carousel">
+                    <img src="/api/placeholder/300/200" class="active" alt="Réparation écran">
+                    <img src="/api/placeholder/300/200" alt="Réparation batterie">
+                    <img src="/api/placeholder/300/200" alt="Réparation caméra">
+                    <img src="/api/placeholder/300/200" alt="Réparation connecteur">
+                    <img src="/api/placeholder/300/200" alt="Réparation boutons">
+                </div>
                 <h3>Réparation - Détails</h3>
                 <ul>
                     <li>Service: Réparation d'écran</li>
@@ -259,11 +460,15 @@
     </section>
     <section class="about" id="about">
         <h2>À Propos</h2>
-        <p>Nous sommes une entreprise spécialisée dans la vente et la réparation de smartphones depuis 10 ans. Notre mission est de fournir des produits de qualité et un service client exceptionnel.</p>
+        <p>Nous sommes une entreprise spécialisée dans la vente et la réparation de smartphones depuis 10 ans.</p>
+        <p>Notre mission est de fournir des produits de qualité et un service client exceptionnel.</p>
+        <p>Rejoignez notre communauté de clients satisfaits dès aujourd'hui !</p>
     </section>
     <section class="terms" id="terms">
         <h2>Conditions de Vente</h2>
-        <p>Tous nos produits sont garantis 1 an. Les réparations sont effectuées avec des pièces d'origine. Les commandes sont expédiées sous 48h.</p>
+        <p>Tous nos produits sont garantis 1 an.</p>
+        <p>Les réparations sont effectuées avec des pièces d'origine.</p>
+        <p>Les commandes sont expédiées sous 48h.</p>
     </section>
     <footer>
         <div class="footer-container">
@@ -294,6 +499,7 @@
         function scrollToTop() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+
         // Cart management
         let cart = [];
         function addToCart(item, price) {
@@ -308,16 +514,40 @@
             const total = calculateTotal();
             const summary = cart.map(item => `${item.item}: ${item.price}€`).join('\n') + `\nTotal: ${total}€`;
             if (/Mobi|Android/i.test(navigator.userAgent)) {
-                // SMS on mobile
                 const smsUrl = `sms:0644762721?body=${encodeURIComponent(summary)}`;
                 window.location.href = smsUrl;
             } else {
-                // Email on desktop
                 const subject = "Récapitulatif de commande";
                 const mailtoUrl = `mailto:arnaudbarotteaux@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(summary)}`;
                 window.location.href = mailtoUrl;
             }
         }
+
+        // Smooth scrolling for nav links
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                targetElement.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Carousel functionality for each card
+        document.querySelectorAll('.carousel').forEach(carousel => {
+            const images = carousel.querySelectorAll('img');
+            let currentIndex = 0;
+
+            // Set initial active image
+            images[currentIndex].classList.add('active');
+
+            // Cycle through images every 3 seconds
+            setInterval(() => {
+                images[currentIndex].classList.remove('active');
+                currentIndex = (currentIndex + 1) % images.length;
+                images[currentIndex].classList.add('active');
+            }, 3000);
+        });
     </script>
 </body>
 </html>
