@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smartphone Shop</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            line-height: 1.6;
+        }
+        header {
+            background: #333;
+            color: white;
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo img {
+            height: 50px;
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        nav ul li {
+            margin: 0 1rem;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        nav ul li a:hover {
+            color: #FFD700;
+        }
+        .products {
+            padding: 100px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            perspective: 1000px;
+            height: 400px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+        .card:hover {
+            transform: rotateY(180deg);
+        }
+        .card-front, .card-back {
+            backface-visibility: hidden;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .card-back {
+            transform: rotateY(180deg);
+            padding: 20px;
+            text-align: left;
+            overflow-y: auto;
+        }
+        .card img {
+            max-width: 100%;
+            max-height: 200px;
+            object-fit: contain;
+        }
+        .card-back ul {
+            list-style: none;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards 0.6s;
+        }
+        .card-back ul li {
+            margin: 5px 0;
+        }
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        .btn {
+            background: #FFD700;
+            color: #333;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            background: #E6C200;
+        }
+        .about, .terms {
+            padding: 50px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .about h2, .terms h2 {
+            margin-bottom: 20px;
+        }
+        .about p, .terms p {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUp 0.5s forwards;
+        }
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        footer {
+            background: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        .scroll-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #FFD700;
+            color: #333;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .scroll-top.visible {
+            opacity: 1;
+        }
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+            }
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            nav ul li {
+                margin: 0.5rem 0;
+            }
+            .products {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <img src="https://via.placeholder.com/150x50?text=Logo" alt="Logo">
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#neuf">Neuf</a></li>
+                    <li><a href="#occasion">Occasion</a></li>
+                    <li><a href="#reparation">Réparation</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <section class="products" id="neuf">
+        <div class="card">
+            <div class="card-front">
+                <img src="https://via.placeholder.com/200?text=Smartphone+Neuf" alt="Smartphone Neuf">
+                <h3>Smartphone Neuf</h3>
+            </div>
+            <div class="card-back">
+                <h3>Smartphone Neuf - Fiche Technique</h3>
+                <ul>
+                    <li>Modèle: XPhone Pro</li>
+                    <li>Stockage: 128Go</li>
+                    <li>RAM: 8Go</li>
+                    <li>Processeur: Octa-core 3.2GHz</li>
+                    <li>Écran: AMOLED 6.7"</li>
+                    <li>Caméra: 108MP + 12MP</li>
+                    <li>Batterie: 4500mAh</li>
+                    <li>Prix: 799€</li>
+                </ul>
+                <button class="btn" onclick="addToCart('Smartphone Neuf', 799)">Commander</button>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-front">
+                <img src="https://via.placeholder.com/200?text=Smartphone+Occasion" alt="Smartphone Occasion">
+                <h3>Smartphone Occasion</h3>
+            </div>
+            <div class="card-back">
+                <h3>Smartphone Occasion - Fiche Technique</h3>
+                <ul>
+                    <li>Modèle: XPhone 11</li>
+                    <li>Stockage: 64Go</li>
+                    <li>RAM: 6Go</li>
+                    <li>Processeur: Hexa-core 2.8GHz</li>
+                    <li>Écran: LCD 6.1"</li>
+                    <li>Caméra: 48MP + 8MP</li>
+                    <li>Batterie: 4000mAh</li>
+                    <li>État: Reconditionné</li>
+                    <li>Prix: 399€</li>
+                </ul>
+                <button class="btn" onclick="addToCart('Smartphone Occasion', 399)">Commander</button>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-front">
+                <img src="https://via.placeholder.com/200?text=Réparation" alt="Réparation">
+                <h3>Réparation</h3>
+            </div>
+            <div class="card-back">
+                <h3>Réparation - Détails</h3>
+                <ul>
+                    <li>Service: Réparation d'écran</li>
+                    <li>Temps: 24h</li>
+                    <li>Pièces: Originales</li>
+                    <li>Garantie: 6 mois</li>
+                    <li>Compatibilité: Tous modèles</li>
+                    <li>Prix: 99€</li>
+                </ul>
+                <button class="btn" onclick="addToCart('Réparation écran', 99)">Commander</button>
+            </div>
+        </div>
+    </section>
+    <section class="about" id="about">
+        <h2>À Propos</h2>
+        <p>Nous sommes une entreprise spécialisée dans la vente et la réparation de smartphones depuis 10 ans. Notre mission est de fournir des produits de qualité et un service client exceptionnel.</p>
+    </section>
+    <section class="terms" id="terms">
+        <h2>Conditions de Vente</h2>
+        <p>Tous nos produits sont garantis 1 an. Les réparations sont effectuées avec des pièces d'origine. Les commandes sont expédiées sous 48h.</p>
+    </section>
+    <footer>
+        <div class="footer-container">
+            <div>
+                <h3>Contact</h3>
+                <p>Email: contact@smartphoneshop.fr</p>
+                <p>Tél: 0644762721</p>
+            </div>
+            <div>
+                <h3>Horaires</h3>
+                <p>Lun-Ven: 9h-18h</p>
+                <p>Sam: 10h-16h</p>
+            </div>
+            <div>
+                <h3>Adresse</h3>
+                <p>123 Rue Tech</p>
+                <p>75000 Paris</p>
+            </div>
+        </div>
+    </footer>
+    <div class="scroll-top" onclick="scrollToTop()">↑</div>
+    <script>
+        // Scroll to top
+        const scrollTopBtn = document.querySelector('.scroll-top');
+        window.addEventListener('scroll', () => {
+            scrollTopBtn.classList.toggle('visible', window.scrollY > 300);
+        });
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        // Cart management
+        let cart = [];
+        function addToCart(item, price) {
+            cart.push({ item, price });
+            alert(`${item} ajouté au panier !`);
+            sendOrderSummary();
+        }
+        function calculateTotal() {
+            return cart.reduce((total, item) => total + item.price, 0);
+        }
+        function sendOrderSummary() {
+            const total = calculateTotal();
+            const summary = cart.map(item => `${item.item}: ${item.price}€`).join('\n') + `\nTotal: ${total}€`;
+            if (/Mobi|Android/i.test(navigator.userAgent)) {
+                // SMS on mobile
+                const smsUrl = `sms:0644762721?body=${encodeURIComponent(summary)}`;
+                window.location.href = smsUrl;
+            } else {
+                // Email on desktop
+                const subject = "Récapitulatif de commande";
+                const mailtoUrl = `mailto:arnaudbarotteaux@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(summary)}`;
+                window.location.href = mailtoUrl;
+            }
+        }
+    </script>
+</body>
+</html>
